@@ -15,16 +15,6 @@ class Wallpaper{
     );
   }
 
-  // static Map<String, dynamic> toMap(Wallpaper wallpaper) =>{
-  //  'photographer': wallpaper.photographer,
-  //  'photographerUrl': wallpaper.photographerUrl,
-  //  'photographerId': wallpaper.photographerId,
-  //  'original': wallpaper.src.original,
-  //  'small': wallpaper.src.small,
-  //  'portrait': wallpaper.src.portrait,
-  // };
-
-  
 }
 
 class SrcModel{

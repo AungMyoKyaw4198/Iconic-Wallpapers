@@ -15,12 +15,13 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-    List<Wallpaper> wallpapers = new List();
+  List<Wallpaper> wallpapers = new List();
   TextEditingController searchController = new TextEditingController();
   bool _loading = true;
   bool isLoadingFailed = false;
-   int pageValue = 0;
+  int pageValue = 0;
 
+  // getting searched value from the api
   getSearchedWallpaper(String query) async{
     int pageNumber = pageValue + 1 ;
     await http.get("https://api.pexels.com/v1/search?query=$query&per_page=30&page=$pageNumber",
@@ -76,11 +77,15 @@ class _SearchState extends State<Search> {
               ),
               
               SizedBox(height: 16,),
-               _loading ? Center(
+
+              _loading ? Center(
               child: Container(
-          child: CircularProgressIndicator(),
-        ),
-      ) :isLoadingFailed ? Center(
+              child: CircularProgressIndicator(),
+              ),
+              ) :isLoadingFailed ? 
+              
+              // Show error message if could not find the searched value
+              Center(
                 child: Column(
                   children: <Widget>[
                     SizedBox(height:30,),
@@ -95,51 +100,41 @@ class _SearchState extends State<Search> {
                   ),
                   SizedBox(height:(MediaQuery.of(context).size.height/2)-120)
                   ],)
-              ):wallpaperList(wallpapers: wallpapers, context: context),
-                SizedBox(height:10,),
-                  wallpapers.length != 0 ?  GestureDetector(
-                  onTap: (){
-                    getSearchedWallpaper(widget.searchTerm);
-                  },
-                                  child: Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white54, width: 1),
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient( 
-                        colors: [
-                        Color(0xFF0D47A1),
-                    Color(0xFF1976D2),
-                    Color(0xFF42A5F5),
-                        ]
-                      )
-                    ),
-                    child: Column(children: <Widget>[
-                      Text("See More", style: TextStyle(fontSize: 16,
-                      color: Colors.white70,)),
-                    ],),
-                  ),
-                ) : SizedBox.shrink(),
+              ):
+              
+              // get wallpaperlist
+              wallpaperList(wallpapers: wallpapers, context: context),
 
               SizedBox(height:10,),
-              // Container(
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(5),color: Colors.blue[200],
-              //     gradient: LinearGradient( 
-              //           colors: [
-              //           Color(0x36FFFFFFF),
-              //           Color(0x0FFFFFFF),
-              //           ]
-              //         )
-              //   ),
-              //   width: MediaQuery.of(context).size.width,
-              //   padding: EdgeInsets.symmetric(vertical: 10),
-              //   child: Column(children: <Widget>[
-              //     Text('Copyright ©2020, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 10.0, color: Color(0xFF162A49)),),
-              //     Text('Powered by Pexels.com',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 10.0,color: Color(0xFF162A49)),),
-              //   ],)
-              // )
+
+              // show 'see more' button untill the searched result is run out
+              wallpapers.length != 0 ?  GestureDetector(
+              onTap: (){
+                getSearchedWallpaper(widget.searchTerm);
+              },
+                child: Container(
+                width: MediaQuery.of(context).size.width/2,
+                padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white54, width: 1),
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient( 
+                    colors: [
+                    Color(0xFF0D47A1),
+                    Color(0xFF1976D2),
+                    Color(0xFF42A5F5),
+                    ]
+                  )
+                ),
+                child: Column(children: <Widget>[
+                  Text("See More", style: TextStyle(fontSize: 16,
+                  color: Colors.white70,)),
+                ],),
+              ),
+            ) : SizedBox.shrink(),
+
+              SizedBox(height:10,),
+
             ],) ,),),
     );
   }

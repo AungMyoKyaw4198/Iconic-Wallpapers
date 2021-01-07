@@ -23,7 +23,6 @@ class _ImageViewState extends State<ImageView> {
   String result;
 
   setImage(String url) async{
-    print("I am doing it");
     var file = await DefaultCacheManager().getSingleFile(url);
     await WallpaperManager.setWallpaperFromFile(file.path, location);
   }
@@ -32,19 +31,21 @@ class _ImageViewState extends State<ImageView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: <Widget>[
-        Hero(
-          tag: widget.imageURL,
-                  child: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Image.network(widget.imageURL, fit: BoxFit.cover,)),
-        ),
-          Container(
+            Hero(
+              tag: widget.imageURL,
+                      child: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Image.network(widget.imageURL, fit: BoxFit.cover,)),
+            ),
+            Container(
             child: Align(
               alignment: Alignment.center,
                           child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+                
+                // 'Set Wallpaper' Button
                 GestureDetector(
                   onTap: (){
                     _save();
@@ -79,10 +80,10 @@ class _ImageViewState extends State<ImageView> {
                     ],),
                   ),
                 ),
+
                 SizedBox(height: 10),
-                FlatButton(onPressed: (){
-                    setImage(widget.imageURL);
-                }, child: Text("Set Image Nowww")),
+                
+                // 'Cancel' Button
                 GestureDetector(
                   onTap: (){
                           Navigator.pop(context);
@@ -110,8 +111,10 @@ class _ImageViewState extends State<ImageView> {
                     ),
                     child: Align(
                        alignment: Alignment.center,
-                      child: Text("Cancel", style: TextStyle(color: Colors.white),)))),
-                  SizedBox(height: 50),
+                      child: Text("Cancel", style: TextStyle(color: Colors.white),)))
+                ),
+
+                SizedBox(height: 50),
               ],),
             ),
           )
@@ -119,17 +122,18 @@ class _ImageViewState extends State<ImageView> {
     );
   }
 
+  // Request user permission before storing the image
   _requestPermission() async {
     final PermissionHandler _permissionHandler = PermissionHandler();
     await _permissionHandler.requestPermissions([PermissionGroup.storage]);
-    // Map<PermissionGroup, PermissionStatus> statuses = 
-    // final info = statuses[PermissionGroup.storage].toString();
   }
 
+   // Show massages after user saving the image
   _toastInfo(String info) {
     Fluttertoast.showToast(msg: info, toastLength: Toast.LENGTH_LONG);
   }
 
+  // Save image function
   _save() async {
      await _requestPermission();
     var response = await Dio().get(widget.imageURL,
@@ -144,5 +148,3 @@ class _ImageViewState extends State<ImageView> {
     Navigator.pop(context);
   }
 }
-
-///https://pub.dev/packages/wallpaper_manager

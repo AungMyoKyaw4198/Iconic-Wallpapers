@@ -23,6 +23,7 @@ class _HomeState extends State<Home> {
   bool isLoadingFailed = false;
    int pageValue = 0;
 
+  // getting wallpapers from the api
   getTrendingWallpaper() async{
     int pageNumber = pageValue + 1 ;
     await http.get("https://api.pexels.com/v1/curated?per_page=30&page=$pageNumber",
@@ -52,6 +53,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     getTrendingWallpaper();
+    // get categories from the data file
     categories = getCategories();
   }
 
@@ -65,8 +67,10 @@ class _HomeState extends State<Home> {
       ),
       body: SingleChildScrollView(
               child: Container(
-          child: Column(
+            child: Column(
             children: <Widget>[
+
+              // Search Box Container
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 padding: EdgeInsets.symmetric(horizontal: 24),
@@ -105,7 +109,10 @@ class _HomeState extends State<Home> {
                   ]
                 ),
               ),
+
               SizedBox(height: 10),
+
+              // Categories Container
               Container(
                 padding: EdgeInsets.only(left: 20),
                 alignment: Alignment.centerLeft,
@@ -127,6 +134,8 @@ class _HomeState extends State<Home> {
                     );
                   }),
               ),
+
+              // Treanding Photos Container
               Container(
                 padding: EdgeInsets.only(left: 20),
                 alignment: Alignment.centerLeft,
@@ -136,7 +145,10 @@ class _HomeState extends State<Home> {
                  child: Container(
                   child: CircularProgressIndicator(),
                ),
-              ) : isLoadingFailed ? Center(
+              ) : isLoadingFailed ? 
+              
+              // Show error message if loading failed
+              Center(
                 child: Column(
                   children: <Widget>[
                     SizedBox(height:30,),
@@ -151,61 +163,44 @@ class _HomeState extends State<Home> {
                   ),
                   SizedBox(height:(MediaQuery.of(context).size.height/2)-120)
                   ],)
-              ): wallpaperList(wallpapers: wallpapers, context: context),
-                  SizedBox(height:10,),
-                  _loading || isLoadingFailed ? SizedBox.shrink() : GestureDetector(
-                  onTap: (){
-                    getTrendingWallpaper();
-                  },
-                                  child: Container(
-                    width: MediaQuery.of(context).size.width/2,
-                    padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white54, width: 1),
-                      borderRadius: BorderRadius.circular(30),
-                      gradient: LinearGradient( 
-                        colors: [
-                        Colors.blue[300],
-                        Colors.blue[400],
-                        Colors.blue[500],
-                        Colors.blue[400],
-                        ]
-                      )
-                    ),
-                    child: Column(children: <Widget>[
-                      Text("See More", style: TextStyle(fontSize: 16,
-                      color: Colors.white70,)),
+              ): 
+
+              // show wallpapers if there is no error
+              wallpaperList(wallpapers: wallpapers, context: context),
+
+              SizedBox(height:10,),
+
+              // if loading or loading is failed , remove the 'see more' button
+              // else show the  'see more' button
+              _loading || isLoadingFailed ? SizedBox.shrink() : GestureDetector(
+              onTap: (){
+                getTrendingWallpaper();
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width/2,
+                padding: EdgeInsets.symmetric(horizontal: 8 , vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white54, width: 1),
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient( 
+                    colors: [
+                    Colors.blue[300],
+                    Colors.blue[400],
+                    Colors.blue[500],
+                    Colors.blue[400],
+                    ]
+                  )
+                ),
+                child: Column(children: <Widget>[
+                  Text("See More", style: TextStyle(fontSize: 16,
+                  color: Colors.white70,)),
                     ],),
                   ),
                 ),
-              SizedBox(height:10,),
-              // Comment out Footer Area
-              // Container(
-              //   // color: Colors.transparent,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.only( topLeft: const Radius.circular(10.0),
-              //   topRight: const Radius.circular(10.0),),
-              //     color: Colors.blue[200],
-              //     gradient: LinearGradient( 
-              //           colors: [
-              //           Colors.blue[200],
-              //           Colors.blue[300],
-              //           Colors.blue[400],
-              //           Colors.blue[300],
-              //           ]
-              //         )
-              //   ),
-              //   width: MediaQuery.of(context).size.width,
-              //   padding: EdgeInsets.symmetric(vertical: 10),
-              //   child: Column(children: <Widget>[
-              //     Text('Copyright ©2020, All Rights Reserved.',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 10.0, color: Colors.white),),
-              //     Text('Powered by Pexels.com',style: TextStyle(fontWeight:FontWeight.w300, fontSize: 10.0,color: Colors.white),),
-              //   ],)
-              // )
+
+            SizedBox(height:10,),
             ],
-            
             ),
-            
             ),
       ),
       

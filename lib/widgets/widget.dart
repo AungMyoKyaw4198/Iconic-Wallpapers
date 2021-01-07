@@ -2,6 +2,9 @@ import 'package:WallpaperApp/model/wallpaper.dart';
 import 'package:WallpaperApp/views/image_view.dart';
 import 'package:flutter/material.dart';
 
+/*
+// Widget for showing brand name
+*/
 Widget brandName(){
   return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -12,6 +15,10 @@ Widget brandName(){
   );
 }
 
+/*
+// Widget for showing wallpaper in Grid View
+// parameters : wallpapers - list of wallpapers object , context
+*/
 Widget wallpaperList({List<Wallpaper> wallpapers, context}){
   return wallpapers.length != 0 ? Container(
     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -29,7 +36,7 @@ Widget wallpaperList({List<Wallpaper> wallpapers, context}){
               Navigator.push(context, MaterialPageRoute(
                 builder: (context)=> ImageView(imageURL: wallpaper.src.portrait,) ) );
             },
-                      child: Hero(
+              child: Hero(
               tag: wallpaper.src.portrait,
                         child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),

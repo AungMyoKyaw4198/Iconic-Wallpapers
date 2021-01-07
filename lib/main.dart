@@ -6,15 +6,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'WallpaperHub',
+      title: 'ICONIC Wallpapers',
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-       debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       home: Home(),
     );
   }
